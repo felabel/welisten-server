@@ -1,10 +1,11 @@
 import { createServer } from "http";
-import { register } from "./routes/auth";
+import { register } from "./routes/auth.js";
 
 const PORT = process.env.PORT || 3000;
 
 const server = createServer((req, res) => {
   res.end("we listen server dey run go where e no know");
+  res.end(req);
   // res.setHeader("Content-Type", "application/json");
 
   if (req.method === "POST" && req.url === "/register") {
