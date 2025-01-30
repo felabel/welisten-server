@@ -5,11 +5,17 @@ import crypto from "crypto";
 const usersFile = "./data/users.json";
 
 // Read users from file
+
+// Read users from file
 const readUsers = () => {
   try {
-    const data = fs.readFileSync(usersFile);
+    if (!fs.existsSync(usersFile)) {
+      fs.writeFileSync(usersFile, JSON.stringify([], null, 2)); // Create file if missing
+    }
+    const data = fs.readFileSync(usersFile, "utf-8");
     return JSON.parse(data);
   } catch (err) {
+    console.error("Error reading users.json:", err);
     return [];
   }
 };
