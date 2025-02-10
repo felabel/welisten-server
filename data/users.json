@@ -4,5 +4,17 @@
     "username": "john_doe",
     "email": "john@example.com",
     "password": "$2a$10$FfMx18jde8n/f2qjbW0Ome.5BCg6UWVbEc/NJQkKuq7sW0yWuLLe6"
+  },
+  {
+    "id": "3f201130-c3c7-4f99-8c5e-38c98776355e",
+    "username": "Doenot",
+    "email": "doe@example.com",
+    "password": "$2a$10$Xvq4uGwg1ifyepoJYFxeN..5zefFnOLJ8tTmQKXQLIXT0LCQEaKHi"
+  },
+  {
+    "id": "fff3340e-479b-4c38-83aa-c92c4c5ba2ce",
+    "username": "feli feli",
+    "email": "Felz@mailinator.com",
+    "password": "$2a$10$fb.mdMem9DcWCxzKCj//h.tlgfjLgfDZZ/boNbxni6J/C.orSTSTe"
   }
 ]

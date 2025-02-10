@@ -69,24 +69,40 @@ const login = async (req, res) => {
   });
 
   req.on("end", async () => {
-    const { email, password } = JSON.parse(body);
-    const users = readUsers();
+    try {
+      const { email, password } = JSON.parse(body);
+      if (!email || !password) {
+        res.writeHead(400, { "Content-Type": "application/json" });
+        return res.end(
+          JSON.stringify({ error: "Email and password are required" })
+        );
+      }
 
-    const user = users.find((u) => u.email === email);
-    if (!user) {
-      res.writeHead(400);
-      return res.end(JSON.stringify({ error: "Invalid email" }));
+      const users = readUsers();
+      // const user = users.find((u) => u.email === email);
+      const user = users.find(
+        (u) => u.email.toLowerCase() === email.toLowerCase()
+      );
+
+      if (!user) {
+        res.writeHead(400, { "Content-Type": "application/json" });
+        return res.end(JSON.stringify({ error: "Invalid email" }));
+      }
+
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch) {
+        res.writeHead(400, { "Content-Type": "application/json" });
+        return res.end(JSON.stringify({ error: "Invalid password" }));
+      }
+
+      const token = crypto.randomBytes(16).toString("hex");
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ message: "Login successful", token }));
+    } catch (err) {
+      console.error("Error parsing request body:", err);
+      res.writeHead(400, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ error: "Invalid request format" }));
     }
-
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      res.writeHead(400);
-      return res.end(JSON.stringify({ error: "Invalid password" }));
-    }
-
-    const token = crypto.randomBytes(16).toString("hex");
-    res.writeHead(200);
-    res.end(JSON.stringify({ message: "Login successful", token }));
   });
 };
 
