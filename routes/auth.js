@@ -96,6 +96,8 @@ const login = async (req, res) => {
       }
 
       const token = crypto.randomBytes(16).toString("hex");
+      user.token = token;
+      writeUsers(users);
       res.writeHead(200, { "Content-Type": "application/json" });
       res.end(JSON.stringify({ message: "Login successful", token }));
     } catch (err) {
@@ -106,5 +108,23 @@ const login = async (req, res) => {
   });
 };
 
+// Check authorization (by checking the token)
+const checkAuthorization = (req) => {
+  const token = req.headers["authorization"]?.split(" ")[1]; // Extract token from Authorization header
+
+  if (!token) {
+    return { isValid: false, user: null };
+  }
+
+  const users = readUsers();
+  const user = users.find((u) => u.token === token); // Find the user with the matching token
+
+  if (!user) {
+    return { isValid: false, user: null }; // Token is invalid
+  }
+
+  return { isValid: true, user }; // Token is valid, return user info
+};
+
 // Export functions (for ES Modules)
-export { register, login };
+export { register, login, checkAuthorization };

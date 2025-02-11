@@ -1,0 +1,37 @@
+[
+  {
+    "id": "1",
+    "user": "john@example.com",
+    "title": "Great App!",
+    "category": "Feature",
+    "detail": "It would be awesome if we could add dark mode."
+  },
+  {
+    "id": "2",
+    "user": "john@example.com",
+    "title": "Great Feature!",
+    "category": "Feature",
+    "detail": "I would love to see more customization options in the app."
+  },
+  {
+    "id": "3",
+    "user": "Felz@mailinator.com",
+    "title": "shipping",
+    "category": "Enhancement",
+    "detail": "add a shipping integration"
+  },
+  {
+    "id": "4",
+    "user": "Felz@mailinator.com",
+    "title": "shipping integration",
+    "category": "Enhancement",
+    "detail": "add a shipping integration"
+  },
+  {
+    "id": "5",
+    "user": "Felz@mailinator.com",
+    "title": "POS",
+    "category": "Feature",
+    "detail": "Add a POS feature"
+  }
+]

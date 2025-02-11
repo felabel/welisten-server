@@ -3,7 +3,8 @@
     "id": "0247c7eb-282f-4249-bc3c-a832685b63ef",
     "username": "john_doe",
     "email": "john@example.com",
-    "password": "$2a$10$FfMx18jde8n/f2qjbW0Ome.5BCg6UWVbEc/NJQkKuq7sW0yWuLLe6"
+    "password": "$2a$10$FfMx18jde8n/f2qjbW0Ome.5BCg6UWVbEc/NJQkKuq7sW0yWuLLe6",
+    "token": "54fbe84b4e2cefc6e3452762ff078859"
   },
   {
     "id": "3f201130-c3c7-4f99-8c5e-38c98776355e",
@@ -15,6 +16,32 @@
     "id": "fff3340e-479b-4c38-83aa-c92c4c5ba2ce",
     "username": "feli feli",
     "email": "Felz@mailinator.com",
-    "password": "$2a$10$fb.mdMem9DcWCxzKCj//h.tlgfjLgfDZZ/boNbxni6J/C.orSTSTe"
+    "password": "$2a$10$fb.mdMem9DcWCxzKCj//h.tlgfjLgfDZZ/boNbxni6J/C.orSTSTe",
+    "token": "e1015fcc3e484695a9e001d1e606dea0"
+  },
+  {
+    "id": "75ad75a7-a3c6-4eca-adc2-96c853bfa713",
+    "username": "Jane",
+    "email": "jane@mailinator.com",
+    "password": "$2a$10$HwGIZ1xwfWMgJuppRDK.OuxBDsc5Hf3yGCp0GEuKZID7rB/7eg8/y"
+  },
+  {
+    "id": "88f82c32-3369-4f70-a517-ac233f20c1dc",
+    "username": "Jane",
+    "email": "jane@example.com",
+    "password": "$2a$10$YeLkS9wnLmtHX9i8h5tGYuRv2szJXDKD7Q/dhm1LfA9h6kep2oFy2",
+    "token": "925c488469f5de0730d6f7bbb3cce69c"
+  },
+  {
+    "id": "b45499ca-a77b-4625-8b28-66c1dda50b41",
+    "username": "Jane",
+    "email": "janet@example.com",
+    "password": "$2a$10$vd1PsAnJYvdc.x0loiZR6.3FQajq8JrV3ucRqTXIgHiTImgK9JGLO"
+  },
+  {
+    "id": "f4231625-f0b9-404d-a126-1dbbe9f23636",
+    "username": "emy",
+    "email": "emi@g.com",
+    "password": "$2a$10$OnAN8AAbjb21CFZNescAnesU.CNRMhy3mLaG6fKnfMmv4Ch0h8J5q"
   }
 ]
