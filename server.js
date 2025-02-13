@@ -1,14 +1,19 @@
 import http from "http";
 import { register, login, checkAuthorization } from "./routes/auth.js";
 import { readCategories } from "./routes/categories.js";
-import { createFeedback, readFeedbacks } from "./routes/feedback.js";
+import {
+  createFeedback,
+  getFeedbackById,
+  readFeedbacks,
+  updateFeedback,
+} from "./routes/feedback.js";
 
 const PORT = process.env.PORT || 3000;
 
 const server = http.createServer((req, res) => {
   // Set CORS headers
   res.setHeader("Access-Control-Allow-Origin", "*"); // Change '*' to 'http://localhost:5173' in production
-  res.setHeader("Access-Control-Allow-Methods", "OPTIONS, POST, GET");
+  res.setHeader("Access-Control-Allow-Methods", "OPTIONS, POST, GET, PUT");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization"); // Allow Authorization header
 
   // Handle preflight requests
@@ -30,6 +35,11 @@ const server = http.createServer((req, res) => {
     const feedbacks = readFeedbacks();
     res.writeHead(200);
     res.end(JSON.stringify({ feedbacks }));
+  } else if (req.method === "PUT" && req.url.startsWith("/feedback/")) {
+    updateFeedback(req, res);
+  } else if (req.method === "GET" && req.url.startsWith("/feedback/")) {
+    const id = req.url.split("/").pop(); // Extract ID from URL
+    getFeedbackById(req, res, id);
   } // POST /feedback - Create feedback (auth protected)
   else if (req.method === "POST" && req.url === "/feedback") {
     if (!checkAuthorization(req).isValid) {

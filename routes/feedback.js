@@ -11,7 +11,7 @@ export const readFeedbacks = () => {
     const data = fs.readFileSync(feedbackPath, "utf-8");
     return JSON.parse(data);
   } catch (err) {
-    console.error("Erro getting feedback", err);
+    console.error("Error getting feedback", err);
     return [];
   }
 };
@@ -71,4 +71,76 @@ export const createFeedback = (req, res) => {
       res.end(JSON.stringify({ error: "Failed to parse request body" }));
     }
   });
+};
+
+// update feedback
+// Update feedback function
+export const updateFeedback = (req, res) => {
+  let body = "";
+
+  req.on("data", (chunk) => {
+    body += chunk.toString();
+  });
+
+  req.on("end", () => {
+    try {
+      const parsedBody = JSON.parse(body);
+
+      if (!parsedBody.title || !parsedBody.category || !parsedBody.detail) {
+        res.writeHead(400, { "Content-Type": "application/json" });
+        return res.end(JSON.stringify({ error: "All fields are required" }));
+      }
+
+      // Extract feedback ID from URL
+      const id = req.url.split("/").pop(); // Extract ID from URL
+
+      // Read existing feedbacks
+      const feedbacks = readFeedbacks();
+
+      // Find the feedback to update
+      const feedbackIndex = feedbacks.findIndex(
+        (feedback) => feedback.id.toString() === id
+      );
+
+      if (feedbackIndex === -1) {
+        res.writeHead(404, { "Content-Type": "application/json" });
+        return res.end(JSON.stringify({ error: "Feedback not found" }));
+      }
+
+      // Update the feedback
+      feedbacks[feedbackIndex] = {
+        ...feedbacks[feedbackIndex],
+        ...parsedBody,
+      };
+
+      // Write the updated feedback list back to the file
+      writeFeedbacks(feedbacks);
+
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(
+        JSON.stringify({
+          message: "Feedback updated successfully",
+          feedback: feedbacks[feedbackIndex],
+        })
+      );
+    } catch (err) {
+      res.writeHead(400, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ error: "Failed to parse request body" }));
+    }
+  });
+};
+
+// get feedback by id
+export const getFeedbackById = (req, res, id) => {
+  const feedbacks = readFeedbacks(); // Read existing feedbacks
+
+  const feedback = feedbacks.find((fb) => fb.id.toString() === id.toString());
+
+  if (!feedback) {
+    res.writeHead(404, { "Content-Type": "application/json" });
+    return res.end(JSON.stringify({ error: "Feedback not found" }));
+  }
+
+  res.writeHead(200, { "Content-Type": "application/json" });
+  res.end(JSON.stringify({ feedback }));
 };
