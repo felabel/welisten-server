@@ -7,7 +7,7 @@ const usersFile = "./data/users.json";
 // Read users from file
 
 // Read users from file
-const readUsers = () => {
+export const readUsers = () => {
   try {
     if (!fs.existsSync(usersFile)) {
       fs.writeFileSync(usersFile, JSON.stringify([], null, 2)); // Create file if missing

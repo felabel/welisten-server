@@ -4,28 +4,88 @@
     "user": "john@example.com",
     "title": "New titke",
     "category": "Feature",
-    "detail": "Details of the feedback updated and made feature"
+    "detail": "Details of the feedback updated and made feature",
+    "upvotes": 1,
+    "comments": [
+      {
+        "id": "1740112160429",
+        "userId": "0247c7eb-282f-4249-bc3c-a832685b63ef",
+        "text": "I completely agree! This needs to be fixed ASAP.",
+        "createdAt": "2025-02-21T04:29:20.429Z",
+        "replies": [
+          {
+            "id": "1740112370624",
+            "userId": "88f82c32-3369-4f70-a517-ac233f20c1dc",
+            "text": "Yes! The developers should prioritize this.",
+            "createdAt": "2025-02-21T04:32:50.624Z"
+          },
+          {
+            "id": "1740112394669",
+            "userId": "88f82c32-3369-4f70-a517-ac233f20c1dc",
+            "text": "I just checked back, I heard this is in progres!!",
+            "createdAt": "2025-02-21T04:33:14.669Z"
+          }
+        ]
+      },
+      {
+        "id": "1740112180548",
+        "userId": "0247c7eb-282f-4249-bc3c-a832685b63ef",
+        "text": "Yes, this would help alot.",
+        "createdAt": "2025-02-21T04:29:40.548Z",
+        "replies": []
+      }
+    ],
+    "status": "InProgress"
   },
   {
     "id": "2",
     "user": "john@example.com",
     "title": "Updated Feedback more",
     "category": "Bug",
-    "detail": "Details of the feedback updated."
+    "detail": "Details of the feedback updated.",
+    "comments": [
+      {
+        "id": "1740112740765",
+        "userId": "0247c7eb-282f-4249-bc3c-a832685b63ef",
+        "text": "YI hope the dev team takes this seriously.",
+        "createdAt": "2025-02-21T04:39:00.765Z",
+        "replies": [
+          {
+            "id": "1740112917400",
+            "userId": "88f82c32-3369-4f70-a517-ac233f20c1dc",
+            "username": "Jane",
+            "email": "jane@example.com",
+            "text": "dorpping this for reach",
+            "createdAt": "2025-02-21T04:41:57.400Z"
+          }
+        ]
+      },
+      {
+        "id": "1740112786162",
+        "userId": "0247c7eb-282f-4249-bc3c-a832685b63ef",
+        "username": "john_doe",
+        "email": "john@example.com",
+        "text": "Is this in progress yes?",
+        "createdAt": "2025-02-21T04:39:46.162Z",
+        "replies": []
+      }
+    ]
   },
   {
     "id": "3",
     "user": "Felz@mailinator.com",
     "title": "Updated Feedback more",
     "category": "Bug",
-    "detail": "Details of the feedback updated."
+    "detail": "Details of the feedback updated.",
+    "upvotes": 2
   },
   {
     "id": "4",
     "user": "Felz@mailinator.com",
     "title": "shipping integration",
     "category": "Enhancement",
-    "detail": "add a shipping integration"
+    "detail": "add a shipping integration",
+    "upvotes": 2
   },
   {
     "id": "5",

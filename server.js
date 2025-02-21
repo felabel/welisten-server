@@ -6,51 +6,84 @@ import {
   getFeedbackById,
   readFeedbacks,
   updateFeedback,
+  upvoteFeedback,
+  addComment,
+  addReply,
+  updateFeedbackStatus,
+  getFeedbackStatusCount,
 } from "./routes/feedback.js";
 
 const PORT = process.env.PORT || 3000;
 
+// Function to parse ID from URL
+const extractIdFromUrl = (url, base) => {
+  const regex = new RegExp(`^${base}/(\\d+)$`);
+  const match = url.match(regex);
+  return match ? match[1] : null;
+};
+
+// Routes definition
+const routes = {
+  POST: {
+    "/register": register,
+    "/login": login,
+    "/feedback": (req, res) => {
+      if (!checkAuthorization(req).isValid) {
+        res.writeHead(401, { "Content-Type": "application/json" });
+        return res.end(JSON.stringify({ error: "Unauthorized" }));
+      }
+      createFeedback(req, res);
+    },
+    "/feedback/upvote": upvoteFeedback,
+    "/feedback/comment": addComment,
+    "/feedback/reply": addReply,
+  },
+  GET: {
+    "/categories": (req, res) => {
+      const categories = readCategories();
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ categories }));
+    },
+    "/feedback": (req, res) => {
+      const feedbacks = readFeedbacks();
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ feedbacks }));
+    },
+    "/feedback/status-count": getFeedbackStatusCount,
+  },
+  PUT: {
+    "/feedback": updateFeedback,
+    "/feedback/status": updateFeedbackStatus,
+  },
+};
+
+// Create Server
 const server = http.createServer((req, res) => {
   // Set CORS headers
-  res.setHeader("Access-Control-Allow-Origin", "*"); // Change '*' to 'http://localhost:5173' in production
+  res.setHeader("Access-Control-Allow-Origin", "*"); // Change '*' to a specific domain in production
   res.setHeader("Access-Control-Allow-Methods", "OPTIONS, POST, GET, PUT");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization"); // Allow Authorization header
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
 
   // Handle preflight requests
   if (req.method === "OPTIONS") {
-    res.writeHead(204); // No content response
+    res.writeHead(204);
     return res.end();
   }
 
-  // auth
-  if (req.method === "POST" && req.url === "/register") {
-    register(req, res);
-  } else if (req.method === "POST" && req.url === "/login") {
-    login(req, res);
-  } else if (req.method === "GET" && req.url === "/categories") {
-    const categories = readCategories(); // Get categories from the file
-    res.writeHead(200);
-    res.end(JSON.stringify({ categories }));
-  } else if (req.method === "GET" && req.url === "/feedback") {
-    const feedbacks = readFeedbacks();
-    res.writeHead(200);
-    res.end(JSON.stringify({ feedbacks }));
-  } else if (req.method === "PUT" && req.url.startsWith("/feedback/")) {
-    updateFeedback(req, res);
-  } else if (req.method === "GET" && req.url.startsWith("/feedback/")) {
-    const id = req.url.split("/").pop(); // Extract ID from URL
-    getFeedbackById(req, res, id);
-  } // POST /feedback - Create feedback (auth protected)
-  else if (req.method === "POST" && req.url === "/feedback") {
-    if (!checkAuthorization(req).isValid) {
-      res.writeHead(401, { "Content-Type": "application/json" });
-      return res.end(JSON.stringify({ error: "Unauthorized" }));
-    }
-    createFeedback(req, res);
-  } else {
-    res.writeHead(404);
-    res.end(JSON.stringify({ error: "Route not found" }));
+  // Check for exact route match
+  if (routes[req.method] && routes[req.method][req.url]) {
+    return routes[req.method][req.url](req, res);
   }
+
+  // Handle dynamic routes (e.g., GET /feedback/:id)
+  const feedbackId = extractIdFromUrl(req.url, "/feedback");
+  if (req.method === "GET" && feedbackId) {
+    return getFeedbackById(req, res, feedbackId);
+  }
+
+  // If no matching route
+  res.writeHead(404, { "Content-Type": "application/json" });
+  res.end(JSON.stringify({ error: "Route not found" }));
 });
 
 server.listen(PORT, () => {
