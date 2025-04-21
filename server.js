@@ -52,7 +52,7 @@ const routes = {
     "/feedback/status-count": getFeedbackStatusCount,
   },
   PUT: {
-    "/feedback": updateFeedback,
+    "/feedback/:id": updateFeedback,
     "/feedback/status": updateFeedbackStatus,
   },
 };
@@ -75,10 +75,18 @@ const server = http.createServer((req, res) => {
     return routes[req.method][req.url](req, res);
   }
 
-  // Handle dynamic routes (e.g., GET /feedback/:id)
-  const feedbackId = extractIdFromUrl(req.url, "/feedback");
-  if (req.method === "GET" && feedbackId) {
-    return getFeedbackById(req, res, feedbackId);
+  // Handle dynamic routes
+  const urlParts = req.url.split("/");
+  if (urlParts[1] === "feedback") {
+    const id = urlParts[2]; // Get the ID part
+
+    if (req.method === "GET" && id) {
+      return getFeedbackById(req, res, id);
+    }
+
+    if (req.method === "PUT" && id) {
+      return updateFeedback(req, res); // ID will be extracted inside
+    }
   }
 
   // If no matching route

@@ -86,11 +86,9 @@ export const createFeedback = (req, res) => {
 // update feedback
 export const updateFeedback = (req, res) => {
   let body = "";
-
   req.on("data", (chunk) => {
     body += chunk.toString();
   });
-
   req.on("end", () => {
     try {
       const parsedBody = JSON.parse(body);
@@ -99,9 +97,9 @@ export const updateFeedback = (req, res) => {
         res.writeHead(400, { "Content-Type": "application/json" });
         return res.end(JSON.stringify({ error: "All fields are required" }));
       }
-
       // Extract feedback ID from URL
       const id = req.url.split("/").pop(); // Extract ID from URL
+      console.log("extracted, id", id);
 
       // Read existing feedbacks
       const feedbacks = readFeedbacks();
