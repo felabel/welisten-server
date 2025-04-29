@@ -99,7 +99,6 @@ export const updateFeedback = (req, res) => {
       }
       // Extract feedback ID from URL
       const id = req.url.split("/").pop(); // Extract ID from URL
-      console.log("extracted, id", id);
 
       // Read existing feedbacks
       const feedbacks = readFeedbacks();
@@ -203,9 +202,9 @@ export const addComment = (req, res) => {
 
   req.on("end", () => {
     try {
-      const { id, userId, text } = JSON.parse(body);
+      const { id, userId, text, username, email } = JSON.parse(body);
 
-      if (!id || !userId || !text) {
+      if ((!id || !userId || !text || !username, !email)) {
         res.writeHead(400, { "Content-Type": "application/json" });
         return res.end(
           JSON.stringify({ error: "ID, User ID, and Text are required" })
@@ -270,9 +269,12 @@ export const addReply = (req, res) => {
 
   req.on("end", () => {
     try {
-      const { feedbackId, commentId, userId, text } = JSON.parse(body);
+      const { feedbackId, commentId, userId, text, username, email } =
+        JSON.parse(body);
 
-      if (!feedbackId || !commentId || !userId || !text) {
+      if (
+        (!feedbackId || !commentId || !userId || !text || !username, !email)
+      ) {
         res.writeHead(400, { "Content-Type": "application/json" });
         return res.end(JSON.stringify({ error: "All fields are required" }));
       }

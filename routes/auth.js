@@ -57,7 +57,16 @@ const register = async (req, res) => {
     writeUsers(users);
 
     res.writeHead(201);
-    res.end(JSON.stringify({ message: "User registered successfully" }));
+    res.end(
+      JSON.stringify({
+        message: "User registered successfully",
+        user: {
+          id: newUser.id,
+          username: newUser.username,
+          email: newUser.email,
+        },
+      })
+    );
   });
 };
 
@@ -99,7 +108,17 @@ const login = async (req, res) => {
       user.token = token;
       writeUsers(users);
       res.writeHead(200, { "Content-Type": "application/json" });
-      res.end(JSON.stringify({ message: "Login successful", token }));
+      res.end(
+        JSON.stringify({
+          message: "Login successful",
+          token,
+          user: {
+            id: user.id,
+            username: user.username,
+            email: user.email,
+          },
+        })
+      );
     } catch (err) {
       console.error("Error parsing request body:", err);
       res.writeHead(400, { "Content-Type": "application/json" });
