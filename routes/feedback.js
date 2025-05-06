@@ -152,6 +152,47 @@ export const getFeedbackById = (req, res, id) => {
 };
 
 // upvote a feedback
+// export const upvoteFeedback = (req, res) => {
+//   let body = "";
+
+//   req.on("data", (chunk) => {
+//     body += chunk.toString();
+//   });
+
+//   req.on("end", () => {
+//     try {
+//       const { id } = JSON.parse(body); // Get feedback ID
+
+//       if (!id) {
+//         res.writeHead(400, { "Content-Type": "application/json" });
+//         return res.end(JSON.stringify({ error: "ID is required" }));
+//       }
+
+//       const feedbacks = readFeedbacks();
+//       const feedback = feedbacks.find(
+//         (fb) => fb.id.toString() === id.toString()
+//       );
+
+//       if (!feedback) {
+//         res.writeHead(404, { "Content-Type": "application/json" });
+//         return res.end(JSON.stringify({ error: "Feedback not found" }));
+//       }
+
+//       // Ensure upvotes is a number
+//       feedback.upvotes = feedback.upvotes ? feedback.upvotes + 1 : 1;
+
+//       writeFeedbacks(feedbacks);
+
+//       res.writeHead(200, { "Content-Type": "application/json" });
+//       res.end(JSON.stringify({ message: "Feedback upvoted", feedback }));
+//     } catch (err) {
+//       res.writeHead(400, { "Content-Type": "application/json" });
+//       res.end(JSON.stringify({ error: "Failed to parse request body" }));
+//     }
+//   });
+// };
+
+// upvote feedback
 export const upvoteFeedback = (req, res) => {
   let body = "";
 
@@ -161,11 +202,13 @@ export const upvoteFeedback = (req, res) => {
 
   req.on("end", () => {
     try {
-      const { id } = JSON.parse(body); // Get feedback ID
+      const { id, userId } = JSON.parse(body); // Get feedback ID and user ID
 
-      if (!id) {
+      if (!id || !userId) {
         res.writeHead(400, { "Content-Type": "application/json" });
-        return res.end(JSON.stringify({ error: "ID is required" }));
+        return res.end(
+          JSON.stringify({ error: "ID and user ID are required" })
+        );
       }
 
       const feedbacks = readFeedbacks();
@@ -178,13 +221,33 @@ export const upvoteFeedback = (req, res) => {
         return res.end(JSON.stringify({ error: "Feedback not found" }));
       }
 
-      // Ensure upvotes is a number
-      feedback.upvotes = feedback.upvotes ? feedback.upvotes + 1 : 1;
+      // Initialize upvotedBy if it doesn't exist
+      if (!feedback.upvotedBy) {
+        feedback.upvotedBy = [];
+      }
+
+      const userIndex = feedback.upvotedBy.indexOf(userId);
+
+      if (userIndex === -1) {
+        // User hasn't voted yet - add upvote
+        feedback.upvotedBy.push(userId);
+        feedback.upvotes = (feedback.upvotes || 0) + 1;
+      } else {
+        // User has already voted - remove upvote
+        feedback.upvotedBy.splice(userIndex, 1);
+        feedback.upvotes = Math.max(0, (feedback.upvotes || 0) - 1);
+      }
 
       writeFeedbacks(feedbacks);
 
       res.writeHead(200, { "Content-Type": "application/json" });
-      res.end(JSON.stringify({ message: "Feedback upvoted", feedback }));
+      res.end(
+        JSON.stringify({
+          message: "Feedback upvoted successfully!",
+          feedback,
+          hasUpvoted: userIndex === -1, // Returns true if user just upvoted, false if removed
+        })
+      );
     } catch (err) {
       res.writeHead(400, { "Content-Type": "application/json" });
       res.end(JSON.stringify({ error: "Failed to parse request body" }));
@@ -372,16 +435,24 @@ export const updateFeedbackStatus = (req, res) => {
   });
 };
 
-// feedback counts
+//feedback count
 export const getFeedbackStatusCount = (req, res) => {
   const feedbacks = readFeedbacks();
 
-  const statusCount = {
-    Planned: feedbacks.filter((fb) => fb.status === Status.PLANNED).length,
-    InProgress: feedbacks.filter((fb) => fb.status === Status.IN_PROGRESS)
-      .length,
-    Live: feedbacks.filter((fb) => fb.status === Status.LIVE).length,
-  };
+  const statusCount = [
+    {
+      name: "Planned",
+      count: feedbacks.filter((fb) => fb.status === Status.PLANNED).length,
+    },
+    {
+      name: "InProgress",
+      count: feedbacks.filter((fb) => fb.status === Status.IN_PROGRESS).length,
+    },
+    {
+      name: "Live",
+      count: feedbacks.filter((fb) => fb.status === Status.LIVE).length,
+    },
+  ];
 
   res.writeHead(200, { "Content-Type": "application/json" });
   res.end(JSON.stringify({ statusCount }));

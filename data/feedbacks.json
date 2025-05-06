@@ -5,7 +5,7 @@
     "title": "New titke",
     "category": "Feature",
     "detail": "Details of the feedback updated and made feature",
-    "upvotes": 1,
+    "upvotes": 22,
     "comments": [
       {
         "id": "1740112160429",
@@ -70,7 +70,7 @@
         ]
       }
     ],
-    "status": "InProgress"
+    "status": "Live"
   },
   {
     "id": "2",
@@ -140,7 +140,9 @@
         "createdAt": "2025-04-28T12:45:44.898Z",
         "replies": []
       }
-    ]
+    ],
+    "upvotes": 4,
+    "status": "Planned"
   },
   {
     "id": "3",
@@ -148,7 +150,7 @@
     "title": "Updated Feedback more",
     "category": "UX",
     "detail": "Details of the feedback updated.",
-    "upvotes": 2,
+    "upvotes": 9,
     "comments": [
       {
         "id": "1745907684942",
@@ -204,7 +206,8 @@
         "createdAt": "2025-04-29T06:29:19.270Z",
         "replies": []
       }
-    ]
+    ],
+    "status": "Live"
   },
   {
     "id": "4",
@@ -212,7 +215,7 @@
     "title": "shipping integration",
     "category": "Enhancement",
     "detail": "add a shipping integration for weighted shipping",
-    "upvotes": 2,
+    "upvotes": 5,
     "comments": [
       {
         "id": "1745906430044",
@@ -239,7 +242,24 @@
         "email": "Felz@mailinator.com",
         "text": "Last time trying",
         "createdAt": "2025-04-29T06:09:04.889Z",
-        "replies": []
+        "replies": [
+          {
+            "id": "1746554570963",
+            "userId": "fff3340e-479b-4c38-83aa-c92c4c5ba2ce",
+            "username": "feli feli",
+            "email": "Felz@mailinator.com",
+            "text": "hey there",
+            "createdAt": "2025-05-06T18:02:50.963Z"
+          },
+          {
+            "id": "1746554603631",
+            "userId": "fff3340e-479b-4c38-83aa-c92c4c5ba2ce",
+            "username": "feli feli",
+            "email": "Felz@mailinator.com",
+            "text": "I think this has been done\n",
+            "createdAt": "2025-05-06T18:03:23.631Z"
+          }
+        ]
       },
       {
         "id": "1745907303772",
@@ -250,20 +270,25 @@
         "createdAt": "2025-04-29T06:15:03.772Z",
         "replies": []
       }
-    ]
+    ],
+    "status": "Planned"
   },
   {
     "id": "5",
     "user": "Felz@mailinator.com",
     "title": "POS",
     "category": "Feature",
-    "detail": "Add a POS feature"
+    "detail": "Add a POS feature",
+    "status": "Live",
+    "upvotes": 2
   },
   {
     "id": "6",
     "user": "Felz@mailinator.com",
     "title": "Video",
     "category": "Feature",
-    "detail": "add a feature to upload product videos\n"
+    "detail": "add a feature to upload product videos\n",
+    "upvotes": 2,
+    "status": "InProgress"
   }
 ]
