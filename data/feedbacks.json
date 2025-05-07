@@ -141,8 +141,11 @@
         "replies": []
       }
     ],
-    "upvotes": 4,
-    "status": "Planned"
+    "upvotes": 5,
+    "status": "Planned",
+    "upvotedBy": [
+      "fff3340e-479b-4c38-83aa-c92c4c5ba2ce"
+    ]
   },
   {
     "id": "3",
@@ -271,7 +274,7 @@
         "replies": []
       }
     ],
-    "status": "Planned"
+    "status": "InProgress"
   },
   {
     "id": "5",
@@ -280,7 +283,27 @@
     "category": "Feature",
     "detail": "Add a POS feature",
     "status": "Live",
-    "upvotes": 2
+    "upvotes": 4,
+    "comments": [
+      {
+        "id": "1746555372098",
+        "userId": "fff3340e-479b-4c38-83aa-c92c4c5ba2ce",
+        "username": "feli feli",
+        "email": "Felz@mailinator.com",
+        "text": "Sint suscipit non neque quia quidem atque odit enim fugiat Nam ut",
+        "createdAt": "2025-05-06T18:16:12.098Z",
+        "replies": [
+          {
+            "id": "1746555385627",
+            "userId": "fff3340e-479b-4c38-83aa-c92c4c5ba2ce",
+            "username": "feli feli",
+            "email": "Felz@mailinator.com",
+            "text": "Est non perferendis sint minima",
+            "createdAt": "2025-05-06T18:16:25.627Z"
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "6",
@@ -288,7 +311,67 @@
     "title": "Video",
     "category": "Feature",
     "detail": "add a feature to upload product videos\n",
-    "upvotes": 2,
+    "upvotes": 3,
     "status": "InProgress"
+  },
+  {
+    "id": "7",
+    "user": "Felz@mailinator.com",
+    "title": "Working ",
+    "category": "Bug",
+    "detail": "This is working perfectly well",
+    "upvotes": 1,
+    "status": "Planned",
+    "comments": []
+  },
+  {
+    "id": "8",
+    "user": "Felz@mailinator.com",
+    "title": "Officiis accusamus v",
+    "category": "Bug",
+    "detail": "Sapiente culpa offi",
+    "upvotes": 1,
+    "status": "Planned",
+    "comments": []
+  },
+  {
+    "id": "9",
+    "user": "Felz@mailinator.com",
+    "title": "Qui commodi consequa",
+    "category": "Feature",
+    "detail": "Anim eos enim saepe ",
+    "upvotes": 4,
+    "status": "Planned",
+    "comments": []
+  },
+  {
+    "id": "10",
+    "user": "Felz@mailinator.com",
+    "title": "hellow there",
+    "category": "UX",
+    "detail": "imporve comprehension",
+    "upvotes": 0,
+    "status": "Planned",
+    "comments": []
+  },
+  {
+    "id": "11",
+    "user": "Felz@mailinator.com",
+    "title": "Eligendi nisi except",
+    "category": "Bug",
+    "detail": "Accusantium aut beat",
+    "upvotes": 0,
+    "status": "Planned",
+    "comments": []
+  },
+  {
+    "id": "12",
+    "user": "Felz@mailinator.com",
+    "title": "Nam qui in repudiand",
+    "category": "UI",
+    "detail": "Quis reprehenderit e",
+    "upvotes": 0,
+    "status": "Planned",
+    "comments": []
   }
 ]

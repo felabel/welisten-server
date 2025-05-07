@@ -23,6 +23,51 @@ export const readFeedbacks = () => {
   }
 };
 
+// get feedbacks
+export const getFeedbacks = (category, sort) => {
+  try {
+    let feedbacks = readFeedbacks();
+
+    // Filter by category if provided
+    if (category && category !== "all") {
+      feedbacks = feedbacks.filter((fb) => fb.category === category);
+    }
+
+    // Sorting logic
+    if (sort) {
+      switch (sort) {
+        case "most-upvotes":
+          feedbacks.sort((a, b) => b.upvotes - a.upvotes);
+          break;
+        case "least-upvotes":
+          feedbacks.sort((a, b) => a.upvotes - b.upvotes);
+          break;
+        case "most-comments":
+          feedbacks.sort(
+            (a, b) => (b.comments?.length || 0) - (a.comments?.length || 0)
+          );
+          break;
+        case "least-comments":
+          feedbacks.sort(
+            (a, b) => (a.comments?.length || 0) - (b.comments?.length || 0)
+          );
+          break;
+        case "all":
+          // No sorting - return in original order
+          break;
+        default:
+          // Default sort by most upvotes
+          feedbacks.sort((a, b) => b.upvotes - a.upvotes);
+      }
+    }
+
+    return feedbacks;
+  } catch (err) {
+    console.error("Error processing feedback", err);
+    return [];
+  }
+};
+
 // write feedbaks to file
 
 const writeFeedbacks = (feedbacks) => {
@@ -150,47 +195,6 @@ export const getFeedbackById = (req, res, id) => {
   res.writeHead(200, { "Content-Type": "application/json" });
   res.end(JSON.stringify({ feedback }));
 };
-
-// upvote a feedback
-// export const upvoteFeedback = (req, res) => {
-//   let body = "";
-
-//   req.on("data", (chunk) => {
-//     body += chunk.toString();
-//   });
-
-//   req.on("end", () => {
-//     try {
-//       const { id } = JSON.parse(body); // Get feedback ID
-
-//       if (!id) {
-//         res.writeHead(400, { "Content-Type": "application/json" });
-//         return res.end(JSON.stringify({ error: "ID is required" }));
-//       }
-
-//       const feedbacks = readFeedbacks();
-//       const feedback = feedbacks.find(
-//         (fb) => fb.id.toString() === id.toString()
-//       );
-
-//       if (!feedback) {
-//         res.writeHead(404, { "Content-Type": "application/json" });
-//         return res.end(JSON.stringify({ error: "Feedback not found" }));
-//       }
-
-//       // Ensure upvotes is a number
-//       feedback.upvotes = feedback.upvotes ? feedback.upvotes + 1 : 1;
-
-//       writeFeedbacks(feedbacks);
-
-//       res.writeHead(200, { "Content-Type": "application/json" });
-//       res.end(JSON.stringify({ message: "Feedback upvoted", feedback }));
-//     } catch (err) {
-//       res.writeHead(400, { "Content-Type": "application/json" });
-//       res.end(JSON.stringify({ error: "Failed to parse request body" }));
-//     }
-//   });
-// };
 
 // upvote feedback
 export const upvoteFeedback = (req, res) => {

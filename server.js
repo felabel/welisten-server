@@ -11,6 +11,7 @@ import {
   addReply,
   updateFeedbackStatus,
   getFeedbackStatusCount,
+  getFeedbacks,
 } from "./routes/feedback.js";
 
 const PORT = process.env.PORT || 3000;
@@ -38,6 +39,7 @@ const routes = {
     "/feedback/comment": addComment,
     "/feedback/reply": addReply,
   },
+
   GET: {
     "/categories": (req, res) => {
       const categories = readCategories();
@@ -45,7 +47,14 @@ const routes = {
       res.end(JSON.stringify({ categories }));
     },
     "/feedback": (req, res) => {
-      const feedbacks = readFeedbacks();
+      // Parse URL and query parameters
+      const parsedUrl = new URL(req.url, `http://${req.headers.host}`);
+      const category = parsedUrl.searchParams.get("category");
+      const sort = parsedUrl.searchParams.get("sort");
+
+      // Get feedbacks with filters
+      const feedbacks = getFeedbacks(category, sort);
+
       res.writeHead(200, { "Content-Type": "application/json" });
       res.end(JSON.stringify({ feedbacks }));
     },
@@ -70,13 +79,16 @@ const server = http.createServer((req, res) => {
     return res.end();
   }
 
-  // Check for exact route match
-  if (routes[req.method] && routes[req.method][req.url]) {
-    return routes[req.method][req.url](req, res);
+  // Extract path without query parameters
+  const pathname = req.url ? req.url.split("?")[0] : "/";
+
+  // Check for exact route match (without query params)
+  if (routes[req.method] && routes[req.method][pathname]) {
+    return routes[req.method][pathname](req, res);
   }
 
   // Handle dynamic routes
-  const urlParts = req.url.split("/");
+  const urlParts = pathname.split("/");
   if (urlParts[1] === "feedback") {
     const id = urlParts[2]; // Get the ID part
 
@@ -88,6 +100,25 @@ const server = http.createServer((req, res) => {
       return updateFeedback(req, res); // ID will be extracted inside
     }
   }
+
+  // // Check for exact route match
+  // if (routes[req.method] && routes[req.method][req.url]) {
+  //   return routes[req.method][req.url](req, res);
+  // }
+
+  // // Handle dynamic routes
+  // const urlParts = req.url.split("/");
+  // if (urlParts[1] === "feedback") {
+  //   const id = urlParts[2]; // Get the ID part
+
+  //   if (req.method === "GET" && id) {
+  //     return getFeedbackById(req, res, id);
+  //   }
+
+  //   if (req.method === "PUT" && id) {
+  //     return updateFeedback(req, res); // ID will be extracted inside
+  //   }
+  // }
 
   // If no matching route
   res.writeHead(404, { "Content-Type": "application/json" });
